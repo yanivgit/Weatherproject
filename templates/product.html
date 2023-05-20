@@ -1,0 +1,92 @@
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<body style="background: url(/static/images/day.jpg);
+             background-size: 110%;
+             background-repeat: no-repeat;">
+<div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-4 col-sm-12 col-xs-12">
+                   <div class="card p-3 p-md-4 text-white">
+
+                        <span><i class="fa fa-envelope-open-o fa-2x" aria-hidden="true"></i></span>
+
+                        <h6 class="my-3"> Weather App idk what to change: </h6>
+
+                       <form action="/weather" method="post">
+                        <div class="row d-flex my-2 pr-2 pr-md-5 div1">
+                            <div class="col-9">
+                                <input type="text" class="form-control py-3" id="inp1" name="location" placeholder="Enter Location">
+                            </div>
+
+                            <div class="col-3 px-0">
+                                <button class="btn text-white px-4 py-2" type="submit"> OK </button>
+                            </div>
+                        </div>
+                        </form>
+                        <p class="my-1">{{ not_found }}</p>
+                    </div>
+            </div>
+        </div>
+
+
+    </div>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap');
+
+        html, body{
+            height: 100%;
+        }
+
+        *{
+            padding: 0px;
+            margin: 0px;
+
+        }
+
+        body {
+            background-color: #dde3fb;
+            display: grid;
+            place-items: center;
+
+        }
+
+        .card {
+
+            background-color: #222222;
+            border-radius: 10px;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .fa{
+            color: #fdfff5;
+        }
+
+        #inp1{
+            background-color: #222222;
+            border: 1px solid #fdfff5;
+            font-size: 0.80rem;
+            color: #ffffff
+        }
+
+        #inp1:focus{
+            outline: none;
+            box-shadow: none;
+        }
+
+        .btn{
+            background-color: #5c72d8;
+            font-size: 0.78rem;
+            border: 0px;
+        }
+
+        .btn:focus{
+            outline: none;
+            box-shadow: none;
+        }
+
+         *:focus{
+            outline: none;
+        }
+  </style>

@@ -1,4 +1,4 @@
-# project
+# my_project
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin http://0.0.0.0/gitlab-instance-cab3d91b/project.git
+git remote add origin http://38cc87f82f60/gitlab-instance-2acc9f26/my_project.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](http://0.0.0.0/gitlab-instance-cab3d91b/project/-/settings/integrations)
+- [ ] [Set up project integrations](http://38cc87f82f60/gitlab-instance-2acc9f26/my_project/-/settings/integrations)
 
 ## Collaborate with your team
 

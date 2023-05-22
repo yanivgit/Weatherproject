@@ -25,7 +25,9 @@ pipeline{
 		sh 'sudo docker stop test || true'
 		sh 'sudo docker rm test || true'
 	        sh 'sudo docker run -d -p 5000:5000 --rm --name test project_image'
-		sh 'pytest test.py'		
+		sh 'pytest test.py'
+		sh 'sudo docker stop test'
+		sh 'sudo docker rm test'		
 	    }
 	}
         

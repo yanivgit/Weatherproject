@@ -22,6 +22,8 @@ pipeline{
         }
 	stage('Test Docker image'){
 	    steps{
+		sh 'sudo docker stop test'
+		sh 'sudo docker rm test'
 	        sh 'sudo docker run -d -p 5000:5000 --rm --name test project_image'
 		
 	    }

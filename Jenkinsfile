@@ -17,7 +17,7 @@ pipeline{
         }
         stage('Build Docker image'){
             steps{
-                sh 'docker build -t project_image .'
+                sh 'sudo docker build -t project_image .'
             }
         }
         

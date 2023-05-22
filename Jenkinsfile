@@ -64,7 +64,7 @@ pipeline{
 
 	stage('Push'){
 	    steps{
-		sh 'docker push avivlevari/project_image'
+		sh 'dockerr push avivlevari/project_image'
 	    }
 
             post{

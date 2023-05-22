@@ -1,4 +1,4 @@
-pipeline
+pipeline{
     agent{
         label 'agent'
     }
@@ -53,7 +53,8 @@ pipeline
         }
 
 	success{
-	    slackSend( channel: "#succeeded-builds", token: "on_success", color: "good",message: "Build successful!")
+	    slackSend( channel: "#devops-alert", token: "on_fail", color: "good", message: "Build Failed!")
+//	    slackSend( channel: "#succeeded-builds", token: "on_success", color: "good",message: "Build successful!")
 	}
 	failure{
 	    slackSend( channel: "#devops-alert", token: "on_fail", color: "good", message: "Build Failed!")

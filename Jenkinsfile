@@ -20,7 +20,7 @@ pipeline{
                 sh 'sudo docker build -t project_image .'
             }
         }
-	stage('Test Docker image){
+	stage('Test Docker image'){
 	    steps{
 	        sh 'sudo docker run -d -p 5000:5000 project_image'
 	    }

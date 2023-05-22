@@ -22,7 +22,7 @@ pipeline{
         }
 	stage('Test Docker image'){
 	    steps{
-	        sh 'sudo docker run -d -p 5000:5000 --name --rm test project_image'
+	        sh 'sudo docker run -d -p 5000:5000 --rm --name test project_image'
 		
 	    }
 	}

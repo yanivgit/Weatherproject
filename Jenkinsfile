@@ -25,7 +25,7 @@ pipeline{
 
 	    post{
 		failure{
-                    slackSend( channel: "#devops-alert", token: "on_fail", color: "good", message: "Build Failed!")
+                    slackSend( channel: "#devops-alert", token: "on_fail", color: "danger", message: "Build Failed!")
 	    
 		}
 	    }
@@ -41,7 +41,7 @@ pipeline{
 
             post{
                 failure{
-                    slackSend( channel: "#devops-alert", token: "on_fail", color: "good", message: "Tests Failed!")
+                    slackSend( channel: "#devops-alert", token: "on_fail", color: "danger", message: "Tests Failed!")
                  
                 }
             }
@@ -55,7 +55,7 @@ pipeline{
 
             post{
                 failure{
-                    slackSend( channel: "#devops-alert", token: "on_fail", color: "good", message: "Login to dockerhub Failed!")
+                    slackSend( channel: "#devops-alert", token: "on_fail", color: "danger", message: "Login to dockerhub Failed!")
                  
                 }
             }
@@ -64,7 +64,7 @@ pipeline{
 
 	stage('Push'){
 	    steps{
-		sh 'dockerr push avivlevari/project_image'
+		sh 'docker push avivlevari/project_image'
 	    }
 
             post{

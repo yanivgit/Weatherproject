@@ -3,6 +3,9 @@ pipeline{
         label 'agent'
     }
     
+    environment{
+	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    }    
     stages {
         stage('Clone'){
             steps{
@@ -17,7 +20,7 @@ pipeline{
         }
         stage('Build Docker image'){
             steps{
-                sh 'sudo docker build -t project_image .'
+                sh 'sudo docker build -t avivlevari/project_image .'
             }
         }
 	stage('Test Docker image'){
@@ -29,7 +32,25 @@ pipeline{
 		sh 'sudo docker stop test'		
 	    }
 	}
+
+	stage('Login'){
+	    steps{
+		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u 
+$DOCKERHUB_CREDENTIALS_USR --password-stdin
+	    }
+	}
+
+	stage('Push'){
+	    steps{
+		sh 'docker push avivlevari/project_image'
+	    }
+	}
         
-        
+    }
+
+    post{
+	always{
+	    sh 'docker logout'	
+        }
     }
 }

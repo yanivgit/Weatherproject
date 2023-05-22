@@ -7,7 +7,9 @@ import time
 @pytest.fixture
 def web_driver():
     # create a new Chrome session
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(30)
     driver.maximize_window()
     # navigate to the application home page

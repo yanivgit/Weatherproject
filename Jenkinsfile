@@ -69,7 +69,7 @@ pipeline{
 
             post{
                 failure{
-                    slackSend( channel: "#devops-alert", token: "on_fail", color: "good", message: "Push to dockerhub Failed!")
+                    slackSend( channel: "#devops-alert", token: "on_fail", color: "danger", message: "Push to dockerhub Failed!")
                  
                 }
             }

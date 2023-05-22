@@ -51,5 +51,9 @@ pipeline{
 	always{
 	    sh 'docker logout'	
         }
+
+	success{
+	    slackSend( channel: "#succeeded-builds", token: "on_success", color: "good",message: "Build successful")
+	}
     }
 }

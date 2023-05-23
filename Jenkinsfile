@@ -80,7 +80,7 @@ pipeline{
 	    steps {
 		sshagent(['sshUser']) {
 		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 18.207.220.81 echo $DOCKERHUB_CREDENTIALS_PSW |docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 18.207.220.81 docker pull avivlevari/project_image'
+		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 18.207.220.81 sudo docker pull avivlevari/project_image'
 		}
             }
         }

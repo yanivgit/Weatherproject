@@ -79,7 +79,8 @@ pipeline{
 	stage('SSH Steps Rocks!') {
 	    steps {
 		sshagent(['sshUser']) {
-		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 18.207.220.81 whoami'
+		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 18.207.220.81 docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 18.207.220.81 docker pull avivlevari/project_image'
 		}
             }
         }

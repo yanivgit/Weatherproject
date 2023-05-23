@@ -77,16 +77,6 @@ pipeline{
 
 	}
 
-	stage('SSH Connection'){
-	    steps{
-		withCredentials([sshUserPrivateKey(credentialsId: 'sshUser', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
-		    sh '''
-		        ssh -T -i $SSH_PRIVATE_KEY ubuntu@18.207.220.81
-			echo 'lebron got swept'
-		    '''
-		}
-	    }
-	}
     }
 
     post{

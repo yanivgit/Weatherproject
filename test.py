@@ -8,7 +8,7 @@ import time
 def web_driver():
     # create a new Chrome session
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
+    options.add_argument('--headless=new')
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(30)
     driver.maximize_window()

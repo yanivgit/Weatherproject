@@ -78,17 +78,9 @@ pipeline{
 
 	stage('SSH Steps Rocks!') {
 	    steps {
-		script {
-          	    def remote = [:]
-          	    remote.name = "ubuntu"
-          	    remote.host = "18.207.220.81"
-          	    remote.allowAnyHosts = true
-
-          	    withCredentials([sshUserPrivateKey(credentialsId: 'sshUser')]) {
-            		remote.user = "ubuntu"
-	                sshCommand remote: remote, command: 'for i in {1..5}; do echo -n "Loop $i "; date ; sleep 1; done'
-          	    }
-        	}
+		sshagent(['sshUser']) {
+		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 18.207.220.81 whoami'
+		}
             }
         }
     }

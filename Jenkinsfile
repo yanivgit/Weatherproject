@@ -6,10 +6,6 @@ pipeline{
     environment{
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
-    def remote = [:]
-    remote.name = "node-1"
-    remote.host = "18.207.220.81"
-    remote.allowAnyHosts = true
     
     stages {
         stage('Clone'){
@@ -80,15 +76,6 @@ pipeline{
             }
 
 	}
-
-	withCredentials([sshUserPrivateKey(credentialsId: 'sshUser', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-        remote.user = ubuntu
-        remote.identityFile = identity
-        stage("SSH Steps Rocks!") {
-            sshCommand remote: remote, command: 'for i in {1..5}; do echo -n \"Loop \$i \"; date ; sleep 1; done'
-        }
-    }
-        
     }
 
     post{

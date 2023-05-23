@@ -86,7 +86,6 @@ pipeline{
 
           	    withCredentials([sshUserPrivateKey(credentialsId: 'sshUser')]) {
             		remote.user = ubuntu
-            		remote.identityFile = identity
 	                sshCommand remote: remote, command: 'for i in {1..5}; do echo -n "Loop $i "; date ; sleep 1; done'
           	    }
         	}

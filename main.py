@@ -16,7 +16,7 @@ def weather():
     #  location inputted by user in html file
     location = flask.request.form['location']
 
-    #  Making url for api use
+    #  Making url for api use.
     first_api = f'https://geocoding-api.open-meteo.com/v1/search?name={location}&count=1&language=en&format=json'
 
     #  Analysing api for next api use(lang,long)

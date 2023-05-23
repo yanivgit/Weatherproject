@@ -25,7 +25,7 @@ pipeline{
 
 	    post{
 		failure{
-                    slackSend( channel: "#devops-alert", token: "on_fail", color: "danger", message: "Build Failed!")
+                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Build Failed!")
 	    
 		}
 	    }
@@ -41,7 +41,7 @@ pipeline{
 
             post{
                 failure{
-                    slackSend( channel: "#devops-alert", token: "on_fail", color: "danger", message: "Tests Failed!")
+                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Tests Failed!")
                  
                 }
             }
@@ -55,7 +55,7 @@ pipeline{
 
             post{
                 failure{
-                    slackSend( channel: "#devops-alert", token: "on_fail", color: "danger", message: "Login to dockerhub Failed!")
+                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Login to dockerhub Failed!")
                  
                 }
             }
@@ -69,7 +69,7 @@ pipeline{
 
             post{
                 failure{
-                    slackSend( channel: "#devops-alert", token: "on_fail", color: "danger", message: "Push to dockerhub Failed!")
+                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Push to dockerhub Failed!")
                  
                 }
             }
@@ -84,7 +84,7 @@ pipeline{
         }
 
 	success{
-	    slackSend( channel: "#succeeded-builds", token: "on_success", color: "good",message: "Build successful!")
+	    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "Build successful!")
 	}
     }
 }

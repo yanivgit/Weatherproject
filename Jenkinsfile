@@ -81,7 +81,7 @@ pipeline{
 	    steps{
 		withCredentials([sshUserPrivateKey(credentialsId: 'sshUser', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
 		    sh '''
-		        ssh -i $SSH_PRIVATE_KEY ubuntu@18.207.220.81
+		        ssh -T -i $SSH_PRIVATE_KEY ubuntu@18.207.220.81
 			echo 'lebron got swept'
 		    '''
 		}

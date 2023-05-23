@@ -80,12 +80,12 @@ pipeline{
 	    steps {
 		script {
           	    def remote = [:]
-          	    remote.name = "node-1"
+          	    remote.name = "ubuntu"
           	    remote.host = "18.207.220.81"
           	    remote.allowAnyHosts = true
 
-          	    withCredentials([sshUserPrivateKey(credentialsId: 'sshUser', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-            		remote.user = userName
+          	    withCredentials([sshUserPrivateKey(credentialsId: 'sshUser')]) {
+            		remote.user = ubuntu
             		remote.identityFile = identity
 	                sshCommand remote: remote, command: 'for i in {1..5}; do echo -n "Loop $i "; date ; sleep 1; done'
           	    }

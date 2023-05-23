@@ -81,7 +81,7 @@ pipeline{
 		script {
           	    def remote = [:]
           	    remote.name = "node-1"
-          	    remote.host = "10.000.000.153"
+          	    remote.host = "18.207.220.81"
           	    remote.allowAnyHosts = true
 
           	    withCredentials([sshUserPrivateKey(credentialsId: 'sshUser', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {

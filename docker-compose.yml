@@ -14,7 +14,7 @@ services:
       - my-network
 
   instance:
-    image: weather_app
+    image: project_image
     command: gunicorn -w 4 -b 0.0.0.0:5000 wsgi:app    
     expose:
       - "5000"

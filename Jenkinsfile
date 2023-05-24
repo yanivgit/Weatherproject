@@ -86,6 +86,7 @@ pipeline{
 	    steps {
 		sshagent(['sshUser']) {
 		    sh '''
+			scp -o StrictHostKeyChecking=no -r /home/ubuntu/workspace/sample/docker-compose.yml /home/ubuntu/workspace/sample/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/
 			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 << EOF
 			    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
 			    sudo docker pull avivlevari/project_image

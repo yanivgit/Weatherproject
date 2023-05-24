@@ -12,8 +12,8 @@ pipeline{
 	    steps{
 		deleteDir()
 		git(
-		    url:'http://44.213.40.16/gitlab-instance-cab3d91b/project.git'
-		    credentialsId: 'test3'
+		    url:'http://44.213.40.16/gitlab-instance-cab3d91b/project.git',
+		    credentialsId: 'test3',
 		    branch: 'main'
 		)
 	    }

@@ -10,7 +10,8 @@ pipeline{
     stages {
         stage('Clone'){
 	    steps{
-		deleteDir()
+//		deleteDir()
+		cleanWs()
 		git(
 		    url:'http://44.213.40.16/gitlab-instance-cab3d91b/project.git',
 		    credentialsId: 'test3',
@@ -18,18 +19,11 @@ pipeline{
 		)
 	    }
 
-
-
-
-//            steps{
-//                // Clean workspace
-//                deleteDir()
-//        
-//                // Clone the gitlab repo
-//                checkout scmGit(branches: [[name: '*/main']], extensions: 
-//[], userRemoteConfigs: [[credentialsId: 'test3', url: 
-//'http://44.213.40.16/gitlab-instance-cab3d91b/project.git']])
-//            }
+	    post{
+		failure{
+                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Clone Failed!")
+		}
+	    }
         }
         stage('Build Docker image'){
             steps{

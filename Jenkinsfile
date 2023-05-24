@@ -90,9 +90,8 @@ pipeline{
 			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 << EOF
 			    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
 			    sudo docker pull avivlevari/project_image
-			    sudo docker stop $(sudo docker ps -aq) || true
-			    sudo docker rm $(sudo docker ps -aq) || true
-			    sudo docker-compose up -d
+			    docker compose down || true
+			    docker compose up -d
 EOF
 		    '''
 

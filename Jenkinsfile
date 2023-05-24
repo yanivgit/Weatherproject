@@ -80,11 +80,13 @@ pipeline{
 	    steps {
 		sshagent(['sshUser']) {
 		    sh '''
-			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 sudo docker pull avivlevari/project_image
-			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 sudo docker stop $(sudo docker ps -aq) || true
-			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 sudo docker rm $(sudo docker ps -aq) || true
-			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 sudo docker-compose up -d
+			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 << EOF
+			    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+			    sudo docker pull avivlevari/project_image
+			    sudo docker stop $(sudo docker ps -aq) || true
+			    sudo docker rm $(sudo docker ps -aq) || true
+			    sudo docker-compose up -d
+			EOF
 		    '''
 
 		}

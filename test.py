@@ -16,13 +16,16 @@ def test_website_is_reachable():
 @pytest.fixture
 def web_driver():
     # create a new Chrome session
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless=new')
+    driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(30)
     driver.maximize_window()
     # navigate to the application home page
     driver.get("http://127.0.0.1:5000")
     yield driver
     driver.quit()
+
 
 def test_valid(web_driver):
     location_input = web_driver.find_element(By.NAME, "location")

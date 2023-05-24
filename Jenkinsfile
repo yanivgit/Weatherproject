@@ -78,16 +78,18 @@ pipeline{
 
 	stage('SSH Steps Rocks!') {
 	    steps {
-		sshagent(['sshUser']) {
-		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 44.201.219.248 echo $DOCKERHUB_CREDENTIALS_PSW |docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 44.201.219.248 sudo docker pull avivlevari/project_image'
-		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 44.201.219.248 sudo docker stop $(sudo docker ps -aq) || true'
-		    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 44.201.219.248 sudo docker rm $(sudo docker ps -aq) || true'
-                    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 44.201.219.248 sudo docker-compose up -d'
-
-		}
+		    withCredentials([sshUserPrivateKey(credentialsId: 'sshUser', keyFileVariable: 'my_key', usernameVariable: 'ubuntu')]) {
+                sh '''
+                    ssh -o StrictHostKeyChecking=no -i $my_key $ubuntu@54.173.160.107 pwd
+                    ssh -o StrictHostKeyChecking=no -i $my_key $ubuntu@54.173.160.107 echo $DOCKERHUB_CREDENTIALS_PSW |docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+	            ssh -o StrictHostKeyChecking=no -i $my_key $ubuntu@54.173.160.107 sudo docker pull avivlevari/project_image'
+	            ssh -o StrictHostKeyChecking=no -i $my_key $ubuntu@54.173.160.107 sudo docker stop $(sudo docker ps -aq) || true'
+		    ssh -o StrictHostKeyChecking=no -i $my_key $ubuntu@54.173.160.107 sudo docker rm $(sudo docker ps -aq) || true'
+                    ssh -o StrictHostKeyChecking=no -i $my_key $ubuntu@54.173.160.107 sudo docker-compose up -d'
+                '''
             }
         }
+    }
     }
 
     post{

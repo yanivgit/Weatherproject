@@ -86,7 +86,7 @@ pipeline{
 			    sudo docker stop $(sudo docker ps -aq) || true
 			    sudo docker rm $(sudo docker ps -aq) || true
 			    sudo docker-compose up -d
-			EOF
+EOF
 		    '''
 
 		}

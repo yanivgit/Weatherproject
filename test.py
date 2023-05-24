@@ -4,12 +4,19 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
+def test_website_is_reachable():
+    """
+    Test whether the website is reachable by sending
+     a GET request to the specified URL.
+    """
+    url = 'http://localhost:5000'
+    response = requests.get(url)
+    assert response.status_code == 200
+
 @pytest.fixture
 def web_driver():
     # create a new Chrome session
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless=new')
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome()
     driver.implicitly_wait(30)
     driver.maximize_window()
     # navigate to the application home page

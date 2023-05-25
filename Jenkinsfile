@@ -12,6 +12,8 @@ pipeline{
         stage('Clone'){
 	    steps{
 		cleanWs()
+
+		sh 'docker context use default'
 		git(
 		    url:'http://44.213.40.16/gitlab-instance-cab3d91b/project.git',
 		    credentialsId: 'test3',
@@ -87,22 +89,32 @@ pipeline{
             }
 	}
 
-	stage('SSH Steps Rocks!') {
-	    steps {
-		sshagent(['sshUser']) {
-		    sh '''
-			scp -o StrictHostKeyChecking=no -r /home/ubuntu/workspace/sample/docker-compose.yml /home/ubuntu/workspace/sample/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/
-			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 << EOF
-			    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-			    sudo docker pull avivlevari/project_image
-			    docker compose down || true
-			    docker compose up -d
-EOF
-		    '''
+//	stage('SSH Steps Rocks!') {
+//	    steps {
+//		sshagent(['sshUser']) {
+//		    sh '''
+//			scp -o StrictHostKeyChecking=no -r /home/ubuntu/workspace/sample/docker-compose.yml /home/ubuntu/workspace/sample/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/
+//			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 << EOF
+//			    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+//			    sudo docker pull avivlevari/project_image
+//			    docker compose down || true
+//			    docker compose up -d
+//EOF
+//		    '''
+//
+//		}
+//          }
+//      }
 
-		}
-            }
-        }
+
+	stage('Deployment'){
+	    steps{
+		sh 'docker context use remote'
+		sh 'docker compose down'
+		sh 'docker compose up -d'
+	    }
+
+	}
     }
 
     post{

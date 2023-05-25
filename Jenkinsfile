@@ -27,7 +27,7 @@ pipeline{
         }
         stage('Build Docker image'){
             steps{
-                sh 'sudo docker build -t avivlevari/project_image .'
+                sh 'sudo docker build -t avivlevari/project_image:latest .'
             }
 
 	    post{

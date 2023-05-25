@@ -1,8 +1,5 @@
 pipeline{
 
-    environment{
-	AGENT_IP = sh(script: 'curl icanhazip.com', returnStdout: true)
-    }
     agent{
         label 'agent'
     }
@@ -115,14 +112,15 @@ EOF
         }
 
 	success{
-	    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg()}")
+	    def MASTER_IP = InetAddress.getLocalHost().getHostAddress() 
+	    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg($MASTER_IP)}")
 	}
     }
 }
 
-def custom_msg()
+def custom_msg($MASTER_IP)
 {
-  def JENKINS_URL= "http://$AGENT_IP:8080"
+  def JENKINS_URL= "http://$MASTER_IP:8080"
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID= env.BUILD_ID
   def JENKINS_LOG= " SUCCESS: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"

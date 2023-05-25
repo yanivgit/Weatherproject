@@ -31,6 +31,11 @@ pipeline{
             }
 
 	    post{
+
+		always{
+		    docker rmi $(docker images -f "dangling=true" -q)
+		}
+
 		failure{
                     slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Build Failed!")
 	    

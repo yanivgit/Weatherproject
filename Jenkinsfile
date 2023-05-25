@@ -29,7 +29,7 @@ pipeline{
         }
         stage('Build Docker image'){
             steps{
-                sh 'docker build -t avivlevari/project_image .'
+                sh 'docker build -t avivlevari/project_image build/.'
             }
 
 	    post{
@@ -49,7 +49,7 @@ pipeline{
 		sh 'docker stop test || true'
 		sh 'docker rm test || true'
 	        sh 'docker run -d -p 5000:5000 --rm --name test avivlevari/project_image'
-		sh 'pytest test.py'
+		sh 'pytest tests/test.py'
 		sh 'docker stop test'		
 	    }
 
@@ -113,7 +113,7 @@ pipeline{
 		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 		sh 'docker pull avivlevari/project_image'
 		sh 'docker compose down'
-		sh 'docker compose up -d'
+		sh 'docker compose up -f build/docker-compose.yml -d'
 	    }
 
 	}

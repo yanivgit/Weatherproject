@@ -6,7 +6,7 @@ pipeline{
     
     environment{
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-	MASTER_IP = sh 'println InetAddress.localHost.canonicalHostName'
+	MASTER_IP = println InetAddress.localHost.canonicalHostName
 
     }
     

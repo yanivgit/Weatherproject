@@ -29,7 +29,7 @@ pipeline{
         }
         stage('Build Docker image'){
             steps{
-                sh 'sudo docker build -t avivlevari/project_image .'
+                sh 'docker build -t avivlevari/project_image .'
             }
 
 	    post{
@@ -46,11 +46,11 @@ pipeline{
         }
 	stage('Test Docker image'){
 	    steps{
-		sh 'sudo docker stop test || true'
-		sh 'sudo docker rm test || true'
-	        sh 'sudo docker run -d -p 5000:5000 --rm --name test avivlevari/project_image'
+		sh 'docker stop test || true'
+		sh 'docker rm test || true'
+	        sh 'docker run -d -p 5000:5000 --rm --name test avivlevari/project_image'
 		sh 'pytest test.py'
-		sh 'sudo docker stop test'		
+		sh 'docker stop test'		
 	    }
 
             post{

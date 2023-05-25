@@ -14,5 +14,5 @@ WORKDIR /home/aviv/app
 
 COPY . .
 
-CMD ["gunicorn","-w", "3" ,"--bind", "0.0.0.0:5000", "../wsgi:app"]
+CMD ["gunicorn","-w", "3" ,"--bind", "0.0.0.0:5000", "wsgi:app"]
 

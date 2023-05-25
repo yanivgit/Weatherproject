@@ -2,7 +2,7 @@ FROM python
 
 RUN useradd -ms /bin/bash aviv
 
-COPY requirements.txt .
+COPY build/requirements.txt .
 
 RUN pip install --upgrade pip
 

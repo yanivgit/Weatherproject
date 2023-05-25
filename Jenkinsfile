@@ -119,7 +119,7 @@ EOF
     }
 }
 
-def custom_msg($MASTER_IP)
+def custom_msg()
 {
   def JENKINS_URL= "http://$MASTER_IP:8080"
   def JOB_NAME = env.JOB_NAME

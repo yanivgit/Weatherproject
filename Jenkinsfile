@@ -6,7 +6,7 @@ pipeline{
     
     environment{
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-	MASTER_IP = env.JENKINS_URL
+	MASTER_IP = getMasterIp()
 
     }
     
@@ -126,4 +126,15 @@ def custom_msg()
   def BUILD_ID= env.BUILD_ID
   def JENKINS_LOG= " SUCCESS: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"
   return JENKINS_LOG
+}
+
+def getMasterIp() {
+    def regexPattern = /(http|https):\/\/([^:^/]*)(:([0-9]*))?/
+    def matcher = (env.JENKINS_URL =~ regexPattern)
+    
+    if (matcher.matches()) {
+        return matcher[0][2]
+    } else {
+        error "Failed to extract Master IP from JENKINS_URL."
+    }
 }

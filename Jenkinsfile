@@ -129,11 +129,16 @@ def custom_msg()
 }
 
 def getMasterIp() {
-    def regexPattern = /(http|https):\/\/([^:^/]*)(:([0-9]*))?/
-    def matcher = env.JENKINS_URL =~ regexPattern
+    def jenkinsUrl = env.JENKINS_URL
+    def startIndex = jenkinsUrl.indexOf("://") + 3
+    def endIndex = jenkinsUrl.indexOf("/", startIndex)
+    if (endIndex == -1) {
+        endIndex = jenkinsUrl.length()
+    }
+    def masterIp = jenkinsUrl.substring(startIndex, endIndex)
     
-    if (matcher.matches()) {
-        return matcher[0][2]
+    if (!masterIp.empty) {
+        return masterIp
     } else {
         error "Failed to extract Master IP from JENKINS_URL."
     }

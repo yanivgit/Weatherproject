@@ -6,6 +6,8 @@ pipeline{
     
     environment{
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+	MASTER_IP = sh 'println InetAddress.localHost.canonicalHostName'
+
     }
     
     stages {
@@ -112,7 +114,6 @@ EOF
         }
 
 	success{
-	    MASTER_IP = InetAddress.getLocalHost().getHostAddress() 
 	    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg($MASTER_IP)}")
 	}
     }

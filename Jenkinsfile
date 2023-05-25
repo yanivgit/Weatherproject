@@ -1,11 +1,14 @@
 pipeline{
+
+    environment{
+	AGENT_IP = sh(script: 'curl icanhazip.com', returnStdout: true)
+    }
     agent{
         label 'agent'
     }
     
     environment{
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-	AGENT_IP = sh(script: 'curl icanhazip.com', returnStdout: true)
     }
     
     stages {

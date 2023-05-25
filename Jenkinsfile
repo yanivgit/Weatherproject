@@ -112,7 +112,7 @@ EOF
         }
 
 	success{
-	    def MASTER_IP = InetAddress.getLocalHost().getHostAddress() 
+	    MASTER_IP = InetAddress.getLocalHost().getHostAddress() 
 	    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg($MASTER_IP)}")
 	}
     }

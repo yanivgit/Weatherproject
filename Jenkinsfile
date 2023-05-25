@@ -35,7 +35,7 @@ pipeline{
 	    post{
 
 		always{
-		    sh 'docker rmi $(docker images -f "dangling=true" -q)'
+		    sh 'docker rmi $(docker images -f "dangling=true" -q) || true'
 		}
 
 		failure{

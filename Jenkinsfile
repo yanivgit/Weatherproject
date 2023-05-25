@@ -4,9 +4,8 @@ pipeline{
         label 'agent'
     }
     
-    environment{
-	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-	MASTER_IP = getMasterIp() 
+    environment{ 
+	DOCKERHUB_CREDENTIALS = credentials('dockerhub') MASTER_IP = getMasterIp()
     }
     
     stages {
@@ -120,7 +119,7 @@ EOF
 
 def custom_msg()
 {
-  def JENKINS_URL= "http://http://3.92.187.105:8080"
+  def JENKINS_URL= "http://3.92.187.105:8080"
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID= env.BUILD_ID
   def JENKINS_LOG= " SUCCESS: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"

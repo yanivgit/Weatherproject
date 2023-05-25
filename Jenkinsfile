@@ -6,14 +6,11 @@ pipeline{
     
     environment{
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-	MASTER_IP = getMasterIp()
-
     }
     
     stages {
         stage('Clone'){
 	    steps{
-//		deleteDir()
 		cleanWs()
 		git(
 		    url:'http://44.213.40.16/gitlab-instance-cab3d91b/project.git',
@@ -121,25 +118,10 @@ EOF
 
 def custom_msg()
 {
-  def JENKINS_URL= "http://$MASTER_IP:8080"
+  def JENKINS_URL= "http://3.92.187.105:8080"
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID= env.BUILD_ID
   def JENKINS_LOG= " SUCCESS: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"
   return JENKINS_LOG
 }
 
-def getMasterIp() {
-    def jenkinsUrl = env.JENKINS_URL
-    def startIndex = jenkinsUrl.indexOf("://") + 3
-    def endIndex = jenkinsUrl.indexOf("/", startIndex)
-    if (endIndex == -1) {
-        endIndex = jenkinsUrl.length()
-    }
-    def masterIp = jenkinsUrl.substring(startIndex, endIndex)
-    
-    if (!masterIp.empty) {
-        return masterIp
-    } else {
-        error "Failed to extract Master IP from JENKINS_URL."
-    }
-}

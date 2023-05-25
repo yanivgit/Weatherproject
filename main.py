@@ -13,7 +13,7 @@ def root():
 
 @app.route("/weather", methods=['POST'])
 def weather():
-    #  location inputted by user in html file
+    #  location inputted by user in html file.
     location = flask.request.form['location']
 
     #  Making url for api use.

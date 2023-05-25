@@ -5,7 +5,7 @@ pipeline{
     }
     
     environment{ 
-	DOCKERHUB_CREDENTIALS = credentials('dockerhub') MASTER_IP = getMasterIp()
+	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     
     stages {

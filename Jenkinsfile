@@ -29,7 +29,7 @@ pipeline{
         }
         stage('Build Docker image'){
             steps{
-                sh 'docker build -t avivlevari/project_image build/.'
+                sh 'docker build -t avivlevari/project_image .'
             }
 
 	    post{

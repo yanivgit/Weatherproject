@@ -109,7 +109,7 @@ pipeline{
 
 	stage('Deployment'){
 	    steps{
-		sh 'scp -r /home/ubuntu/workspace/sample/build/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/'
+		sh 'scp /home/ubuntu/workspace/sample/build/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/'
 		sh 'docker context use remote'
 		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 		sh 'docker pull avivlevari/project_image'

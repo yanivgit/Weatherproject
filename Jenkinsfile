@@ -108,7 +108,6 @@ EOF
     post{
 	always{
 	    sh 'docker logout'
-	    println ${env.JENKINS_URL}	
         }
 
 	success{

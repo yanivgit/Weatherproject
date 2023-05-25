@@ -113,7 +113,7 @@ pipeline{
 		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 		sh 'docker pull avivlevari/project_image'
 		sh 'docker compose down'
-		sh 'docker compose up -f build/docker-compose.yml -d'
+		sh 'docker compose -f build/docker-compose.yml up -d'
 	    }
 
 	}

@@ -130,7 +130,7 @@ def custom_msg()
 
 def getMasterIp() {
     def regexPattern = /(http|https):\/\/([^:^/]*)(:([0-9]*))?/
-    def matcher = (env.JENKINS_URL =~ regexPattern)
+    def matcher = env.JENKINS_URL =~ regexPattern
     
     if (matcher.matches()) {
         return matcher[0][2]

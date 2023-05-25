@@ -5,6 +5,7 @@ pipeline{
     
     environment{
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+	AGENT_IP = sh(script: 'curl icanhazip.com', returnStdout: true)
     }
     
     stages {
@@ -118,7 +119,7 @@ EOF
 
 def custom_msg()
 {
-  def JENKINS_URL= "http://44.208.24.191:8080"
+  def JENKINS_URL= "http://$AGENT_IP:8080"
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID= env.BUILD_ID
   def JENKINS_LOG= " SUCCESS: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"

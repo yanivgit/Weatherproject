@@ -24,7 +24,7 @@ pipeline{
 	    }
 
 	    post{
-		failure{
+		always{
 		    script{
 		        env.FAILED = "fetch"
 		    }
@@ -38,18 +38,16 @@ pipeline{
             }
 
 	    post{
-
 		always{
 		    sh 'docker rmi $(docker images -f "dangling=true" -q) || true'
-		}
-
-		failure{
-//                  slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Build Image")}")
-                    script{ 
+                    script{
                         env.FAILED = "Build Image"
                     }
-
 		}
+
+//		failure{
+//                  slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Build Image")}")
+//		}
 	    }
         }
 	stage('Test Docker image'){
@@ -62,7 +60,7 @@ pipeline{
 	    }
 
             post{
-                failure{
+                always{
 //		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Tests")}")
                     script{ 
                         env.FAILED = "Tests"
@@ -77,7 +75,7 @@ pipeline{
 	    }
 
             post{
-                failure{
+                always{
 //		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Loging to dockerhub")}")
                     script{ 
                         env.FAILED = "Login to dockerhub"
@@ -97,14 +95,13 @@ pipeline{
 
 		always{
 		    sh 'docker logout'
-		}
-                failure{
-//		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Push to dockerhub")}")
-                    script{ 
+                    script{
                         env.FAILED = "Push to dockerhub"
                     }
-
-                }
+		}
+//              failure{
+//		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Push to dockerhub")}")
+//              }
             }
 	}
 
@@ -139,17 +136,15 @@ pipeline{
 	    post{
 		always{
 		    sh 'docker logout'
-		}
-		
-		failure{
-//		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Deployment")}")
-                    script{ 
+                    script{
                         env.FAILED = "Deployment"
                     }
-
 		}
+		
+//		failure{
+//		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Deployment")}")
+//		}
 	    }
-
 	}
     }
     post{

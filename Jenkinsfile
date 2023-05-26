@@ -25,7 +25,7 @@ pipeline{
 
 	    post{
 		failure{
-                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Clone Failed!")
+		    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg_failed("Fetch")}")
 		}
 	    }
         }
@@ -41,7 +41,7 @@ pipeline{
 		}
 
 		failure{
-                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Build Failed!")
+                    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg_failed("Build Image")}")
 	    
 		}
 	    }
@@ -57,8 +57,7 @@ pipeline{
 
             post{
                 failure{
-                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Tests Failed!")
-                 
+		    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg_failed("Tests")}")
                 }
             }
 
@@ -71,8 +70,7 @@ pipeline{
 
             post{
                 failure{
-                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Login to dockerhub Failed!")
-                 
+		    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg_failed("Loging to dockerhub")}")                 
                 }
             }
 
@@ -89,8 +87,7 @@ pipeline{
 		    sh 'docker logout'
 		}
                 failure{
-                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Push to dockerhub Failed!")
-                 
+		    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg_failed("Push to dockerhub")}")                 
                 }
             }
 	}
@@ -127,6 +124,10 @@ pipeline{
 		always{
 		    sh 'docker logout'
 		}
+		
+		failure{
+		    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg_failed("Deployment")}")
+		}
 	    }
 
 	}
@@ -134,13 +135,13 @@ pipeline{
     post{
 	success{
 	    node('!master'){
-	        slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg()}")
+	        slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg_success()}")
             }
 	}
     }
 }   
 
-def custom_msg()
+def custom_msg_success()
 {
   def PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true)
   def JENKINS_URL= "http://$PUBLIC_IP:8080"
@@ -149,4 +150,15 @@ def custom_msg()
   def JENKINS_LOG= " SUCCESS: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"
   return JENKINS_LOG
 }
+
+def custom_msg_failed(failed)
+{
+  def PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', ret>
+  def JENKINS_URL= "http://$PUBLIC_IP:8080"
+  def JOB_NAME = env.JOB_NAME
+  def BUILD_ID= env.BUILD_ID
+  def JENKINS_LOG= " FAILED: $failed failed, Logs path: ${JENKINS_URL}/job/${JOB_NAME}/>
+  return JENKINS_LOG
+}
+
 

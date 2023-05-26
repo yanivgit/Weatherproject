@@ -25,7 +25,9 @@ pipeline{
 
 	    post{
 		failure{
-		    env.FAILED = "fetch"
+		    script{
+		        env.FAILED = "fetch"
+		    }
 //		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Fetch")}")
 		}
 	    }
@@ -43,7 +45,10 @@ pipeline{
 
 		failure{
 //                  slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Build Image")}")
-		    env.FAILED = "Build Image"
+                    script{ 
+                        env.FAILED = "Build Image"
+                    }
+
 		}
 	    }
         }
@@ -59,10 +64,11 @@ pipeline{
             post{
                 failure{
 //		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Tests")}")
-		    env.FAILED = "Tests"
+                    script{ 
+                        env.FAILED = "Tests"
+                    }
                 }
             }
-
 	}
 
 	stage('Login'){
@@ -73,7 +79,10 @@ pipeline{
             post{
                 failure{
 //		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Loging to dockerhub")}")
-		    env.FAILED = "Loging to dockerhub"
+                    script{ 
+                        env.FAILED = "Login to dockerhub"
+                    }
+
                 }
             }
 
@@ -91,7 +100,10 @@ pipeline{
 		}
                 failure{
 //		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Push to dockerhub")}")
-		    env.FAILED = "Push to dockerhub"
+                    script{ 
+                        env.FAILED = "Push to dockerhub"
+                    }
+
                 }
             }
 	}
@@ -131,7 +143,10 @@ pipeline{
 		
 		failure{
 //		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Deployment")}")
-		    env.FAILED = "Deployment"
+                    script{ 
+                        env.FAILED = "Deployment"
+                    }
+
 		}
 	    }
 
@@ -145,7 +160,7 @@ pipeline{
 	}
 	failure{
             node('!master'){
-                slackSend( channel: "#devops-alert", token: "slack_notify", color: "good",message: "${custom_msg_failed(${env.FAILED})}")
+                slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed(${env.FAILED})}")
             }	    
 	}
     }

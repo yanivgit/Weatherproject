@@ -6,6 +6,9 @@ pipeline{
     
     environment{ 
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+	node('!master'){
+            PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true)
+        }
     }
     
     stages {

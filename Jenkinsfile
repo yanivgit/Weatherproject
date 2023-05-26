@@ -50,7 +50,7 @@ pipeline{
 		sh 'docker stop test || true'
 		sh 'docker rm test || true'
 	        sh 'docker run -d -p 5000:5000 --rm --name test $DOCKER_IMAGE'
-		sh 'pytest tests/tes.py'
+		sh 'pytest tests/test.py'
 		sh 'docker stop test'		
 	    }
 

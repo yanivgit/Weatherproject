@@ -140,7 +140,7 @@ pipeline{
 //		script {
 //		    def PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true)
 //		}
-	        slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg(sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true))}")
+	        slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg($PUBLIC_IP)}")
             }
 	}
     }

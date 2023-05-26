@@ -31,7 +31,7 @@ pipeline{
         }
         stage('Build Docker image'){
             steps{
-                sh 'docker build -t $DOCKER_IMAGE .'
+                sh 'docker build -t $DOCKER_IMAG .'
             }
 
 	    post{

@@ -17,7 +17,7 @@ pipeline{
 
 		sh 'docker context use default'
 		git(
-		    url:'http://$GITLAB_IP/gitlab-instance-cab3d91b/project.git',
+		    url:"http://$GITLAB_IP/gitlab-instance-cab3d91b/project.git",
 		    credentialsId: 'test3',
 		    branch: 'main'
 		)

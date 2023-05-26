@@ -25,7 +25,8 @@ pipeline{
 
 	    post{
 		failure{
-		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Fetch")}")
+		    env.FAILED = "fetch"
+//		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Fetch")}")
 		}
 	    }
         }
@@ -41,9 +42,8 @@ pipeline{
 		}
 
 		failure{
-		    node('!master'){
-                        slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Build Image")}")
-	            }
+//                  slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Build Image")}")
+		    env.FAILED = "Build Image"
 		}
 	    }
         }
@@ -58,7 +58,8 @@ pipeline{
 
             post{
                 failure{
-		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Tests")}")
+//		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Tests")}")
+		    env.FAILED = "Tests"
                 }
             }
 
@@ -71,7 +72,8 @@ pipeline{
 
             post{
                 failure{
-		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Loging to dockerhub")}")                 
+//		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Loging to dockerhub")}")
+		    env.FAILED = "Loging to dockerhub"
                 }
             }
 
@@ -88,7 +90,8 @@ pipeline{
 		    sh 'docker logout'
 		}
                 failure{
-		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Push to dockerhub")}")                 
+//		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Push to dockerhub")}")
+		    env.FAILED = "Push to dockerhub"
                 }
             }
 	}
@@ -127,9 +130,8 @@ pipeline{
 		}
 		
 		failure{
-		    node('!master'){
-		        slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Deployment")}")
-		    }		
+//		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Deployment")}")
+		    env.FAILED = "Deployment"
 		}
 	    }
 
@@ -140,6 +142,11 @@ pipeline{
 	    node('!master'){
 	        slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg_success()}")
             }
+	}
+	failure{
+            node('!master'){
+                slackSend( channel: "#devops-alert", token: "slack_notify", color: "good",message: "${custom_msg_failed(${env.FAILED})}")
+            }	    
 	}
     }
 }   

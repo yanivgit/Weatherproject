@@ -41,8 +41,9 @@ pipeline{
 		}
 
 		failure{
-                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Build Image")}")
-	    
+		    node('!master'){
+                        slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Build Image")}")
+	            }
 		}
 	    }
         }
@@ -126,7 +127,9 @@ pipeline{
 		}
 		
 		failure{
-		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Deployment")}")
+		    node('!master'){
+		        slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Deployment")}")
+		    }		
 		}
 	    }
 

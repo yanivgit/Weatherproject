@@ -1,8 +1,3 @@
-node('!master'){
-    PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true)
-}
-
-
 pipeline{
 
     agent{
@@ -140,13 +135,13 @@ pipeline{
 //		script {
 //		    def PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true)
 //		}
-	        slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg($PUBLIC_IP)}")
+	        slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg()}")
             }
 	}
     }
 }   
 
-def custom_msg(ret)
+def custom_msg()
 {
   def PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true)
   def JENKINS_URL= "http://$PUBLIC_IP:8080"

@@ -82,6 +82,10 @@ pipeline{
 	    }
 
             post{
+
+		always{
+		    sh 'docker logout'
+		}
                 failure{
                     slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger", message: "Push to dockerhub Failed!")
                  
@@ -116,24 +120,27 @@ pipeline{
 		sh 'docker compose -f build/docker-compose.yml down'
 		sh 'docker compose -f build/docker-compose.yml up -d'
 	    }
+	    
+	    post{
+		sh 'docker logout'
+	    }
 
 	}
     }
 
     post{
-	always{
-	    sh 'docker logout'
-        }
-
+	agent { label '!master' }
+	
 	success{
-	    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg()}")
+	    def ret = sh(script:'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true)
+	    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg($ret)}")
 	}
     }
 }
 
-def custom_msg()
+def custom_msg(ret)
 {
-  def JENKINS_URL= "http://52.91.107.96:8080"
+  def JENKINS_URL= "http://$ret:8080"
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID= env.BUILD_ID
   def JENKINS_LOG= " SUCCESS: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"

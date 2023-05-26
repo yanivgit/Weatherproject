@@ -148,7 +148,8 @@ pipeline{
 
 def custom_msg(ret)
 {
-  def JENKINS_URL= "http://$ret:8080"
+  def PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true)
+  def JENKINS_URL= "http://$PUBLIC_IP:8080"
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID= env.BUILD_ID
   def JENKINS_LOG= " SUCCESS: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"

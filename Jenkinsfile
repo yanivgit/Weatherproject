@@ -173,7 +173,7 @@ def custom_msg_success()
 
 def custom_msg_failed(failed)
 {
-  def PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', retutrnStdout: true)
+  def PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true)
   def JENKINS_URL= "http://$PUBLIC_IP:8080"
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID= env.BUILD_ID

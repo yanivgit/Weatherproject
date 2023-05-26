@@ -25,7 +25,7 @@ pipeline{
 
 	    post{
 		failure{
-		    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Fetch")}")
+		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Fetch")}")
 		}
 	    }
         }
@@ -41,7 +41,7 @@ pipeline{
 		}
 
 		failure{
-                    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Build Image")}")
+                    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Build Image")}")
 	    
 		}
 	    }
@@ -57,7 +57,7 @@ pipeline{
 
             post{
                 failure{
-		    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Tests")}")
+		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Tests")}")
                 }
             }
 
@@ -70,7 +70,7 @@ pipeline{
 
             post{
                 failure{
-		    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Loging to dockerhub")}")                 
+		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Loging to dockerhub")}")                 
                 }
             }
 
@@ -87,7 +87,7 @@ pipeline{
 		    sh 'docker logout'
 		}
                 failure{
-		    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Push to dockerhub")}")                 
+		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Push to dockerhub")}")                 
                 }
             }
 	}
@@ -126,7 +126,7 @@ pipeline{
 		}
 		
 		failure{
-		    slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Deployment")}")
+		    slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed("Deployment")}")
 		}
 	    }
 

@@ -6,6 +6,8 @@ pipeline{
     
     environment{ 
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+	GITLAB_IP = '44.213.40.16'
+	DOCKER_IMAGE = 'avivlevari/project_image'
     }
     
     stages {
@@ -15,7 +17,7 @@ pipeline{
 
 		sh 'docker context use default'
 		git(
-		    url:'http://44.213.40.16/gitlab-instance-cab3d91b/project.git',
+		    url:'http://$GITLAB_IP/gitlab-instance-cab3d91b/project.git',
 		    credentialsId: 'test3',
 		    branch: 'main'
 		)
@@ -29,7 +31,7 @@ pipeline{
         }
         stage('Build Docker image'){
             steps{
-                sh 'docker build -t avivlevari/project_image .'
+                sh 'docker build -t $DOCKER_IMAGE .'
             }
 
 	    post{
@@ -48,7 +50,7 @@ pipeline{
 	    steps{
 		sh 'docker stop test || true'
 		sh 'docker rm test || true'
-	        sh 'docker run -d -p 5000:5000 --rm --name test avivlevari/project_image'
+	        sh 'docker run -d -p 5000:5000 --rm --name test $DOCKER_IMAGE'
 		sh 'pytest tests/test.py'
 		sh 'docker stop test'		
 	    }
@@ -78,7 +80,7 @@ pipeline{
 
 	stage('Push'){
 	    steps{
-		sh 'docker push avivlevari/project_image'
+		sh 'docker push $DOCKER_IMAGE'
 	    }
 
             post{
@@ -100,7 +102,7 @@ pipeline{
 //			scp -o StrictHostKeyChecking=no -r /home/ubuntu/workspace/sample/docker-compose.yml /home/ubuntu/workspace/sample/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/
 //			ssh -o StrictHostKeyChecking=no -l ubuntu 172.31.87.152 << EOF
 //			    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-//			    sudo docker pull avivlevari/project_image
+//			    sudo docker pull $DOCKER_IMAGE
 //			    docker compose down || true
 //			    docker compose up -d
 //EOF
@@ -116,7 +118,7 @@ pipeline{
 		sh 'scp /home/ubuntu/workspace/sample/build/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/'
 		sh 'docker context use remote'
 		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-		sh 'docker pull avivlevari/project_image'
+		sh 'docker pull $DOCKER_IMAGE'
 		sh 'docker compose -f build/docker-compose.yml down'
 		sh 'docker compose -f build/docker-compose.yml up -d'
 	    }
@@ -132,9 +134,6 @@ pipeline{
     post{
 	success{
 	    node('!master'){
-//		script {
-//		    def PUBLIC_IP = sh ( script: 'curl http://169.254.169.254/latest/meta-data/public-ipv4', returnStdout: true)
-//		}
 	        slackSend( channel: "#succeeded-builds", token: "slack_notify", color: "good",message: "${custom_msg()}")
             }
 	}

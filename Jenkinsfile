@@ -160,7 +160,7 @@ pipeline{
 	}
 	failure{
             node('!master'){
-                slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed(${env.FAILED})}")
+                slackSend( channel: "#devops-alert", token: "slack_notify", color: "danger",message: "${custom_msg_failed($env.FAILED)}")
             }	    
 	}
     }

@@ -38,7 +38,7 @@ pipeline{
 
 	    post{
 		always{
-		    sh 'docker rmi $(docker images -f "dangling=true" -q) || true'
+		    sh 'docker image prune -af'
                     script{
                         env.FAILED = "Build Image"
                     }
@@ -85,7 +85,6 @@ pipeline{
 	    }
 
             post{
-
 		always{
 		    sh 'docker logout'
                     script{
@@ -117,10 +116,9 @@ pipeline{
 	    steps{
 		sh 'scp /home/ubuntu/workspace/sample/build/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/'
 		sh 'docker context use remote'
-//		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 		sh 'docker pull $DOCKER_IMAGE'
-		sh 'docker compose -f build/docker-compose.yml down'
-		sh 'docker compose -f build/docker-compose.yml up -d'
+		sh 'docker compose -f build/docker-compose.yml refresh'
+//		sh 'docker compose -f build/docker-compose.yml up -d'
 	    }
 	    
 	    post{

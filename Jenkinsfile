@@ -124,7 +124,6 @@ pipeline{
 		always{
 		    sh 'docker image prune -af'
 		    sh 'docker context use default'
-		    sh 'docker image prune -af'
 		    sh 'docker logout'
                     script{
                         env.FAILED = "Deployment"

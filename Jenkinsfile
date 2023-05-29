@@ -116,10 +116,11 @@ pipeline{
 
 	stage('Deployment'){
 	    steps{
-		sh 'scp /home/ubuntu/workspace/sample/build/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/'
+//		sh 'scp /home/ubuntu/workspace/sample/build/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/'
 		sh 'docker context use remote'
 		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-		sh 'docker pull $DOCKER_IMAGE $NGINX_IMAGE'
+		sh 'docker pull $DOCKER_IMAGE'
+		sh 'docker pull $NGINX_IMAGE'
 		sh 'docker compose -f build/docker-compose.yml up -d'
 	    }
 	    

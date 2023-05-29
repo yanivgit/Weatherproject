@@ -8,6 +8,7 @@ pipeline{
 	DOCKERHUB_CREDENTIALS = credentials('dockerhub')
 	GITLAB_IP = '44.213.40.16'
 	DOCKER_IMAGE = 'avivlevari/project_image'
+	NGINX_IMAGE = 'avivlevari/nginx_custom'
     }
     
     stages {
@@ -34,7 +35,7 @@ pipeline{
         stage('Build Docker image'){
             steps{
                 sh 'docker build -t $DOCKER_IMAGE .'
-		sh 'docker build -f Dockerfile_nginx -t nginx_custom .' 
+		sh 'docker build -f Dockerfile_nginx -t $NGINX_IMAGE .' 
             }
 
 	    post{
@@ -82,6 +83,7 @@ pipeline{
 	stage('Push'){
 	    steps{
 		sh 'docker push $DOCKER_IMAGE'
+		sh 'docker push $NGINX_IMAGE'
 	    }
 
             post{
@@ -116,7 +118,8 @@ pipeline{
 	    steps{
 		sh 'scp /home/ubuntu/workspace/sample/build/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/'
 		sh 'docker context use remote'
-		sh 'docker pull $DOCKER_IMAGE'
+		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+		sh 'docker pull $DOCKER_IMAGE $NGINX_IMAGE'
 		sh 'docker compose -f build/docker-compose.yml up -d'
 	    }
 	    

@@ -6,8 +6,8 @@ services:
     image: avivlevari/nginx_custom
     ports:
       - "80:80"
-    volumes:
-      - /home/ubuntu/nginx.conf:/etc/nginx/nginx.conf
+#    volumes:
+#      - /home/ubuntu/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - instance
     networks:

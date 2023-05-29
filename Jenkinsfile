@@ -34,7 +34,7 @@ pipeline{
         stage('Build Docker image'){
             steps{
                 sh 'docker build -t $DOCKER_IMAGE .'
-		sh 'docker build -f Dockerfile_nginx -t nginx_custom . 
+		sh 'docker build -f Dockerfile_nginx -t nginx_custom .' 
             }
 
 	    post{

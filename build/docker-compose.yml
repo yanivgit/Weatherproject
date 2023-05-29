@@ -3,7 +3,7 @@ version: '3.9'
 services:
 
   nginx:
-    image: nginx_custom
+    image: avivlevari/nginx_custom
     ports:
       - "80:80"
     volumes:

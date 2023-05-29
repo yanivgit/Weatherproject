@@ -1,4 +1,4 @@
-pipeline{
+§pipeline{
 
     agent{
         label 'agent'
@@ -24,9 +24,9 @@ pipeline{
 	    }
 
 	    post{
-		always{
-		    script{
-		        env.FAILED = "fetch"
+		    always{
+		        script{
+		            env.FAILED = "fetch"
 		    }
 		}
 	    }
@@ -34,6 +34,7 @@ pipeline{
         stage('Build Docker image'){
             steps{
                 sh 'docker build -t $DOCKER_IMAGE .'
+		sh 'docker build -f Dockerfile_nginx -t nginx_custom . 
             }
 
 	    post{
@@ -48,7 +49,7 @@ pipeline{
 	    steps{
 		sh 'docker stop test || true'
 		sh 'docker rm test || true'
-	        sh 'docker run -d -p 5000:5000 --rm --name test $DOCKER_IMAGE'
+	    sh 'docker run -d -p 5000:5000 --rm --name test $DOCKER_IMAGE'
 		sh 'pytest tests/test.py'
 		sh 'docker stop test'		
 	    }

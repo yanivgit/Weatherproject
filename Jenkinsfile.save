@@ -50,7 +50,7 @@ pipeline{
 	    steps{
 		sh 'docker stop test || true'
 		sh 'docker rm test || true'
-      	        sh 'docker run -d -p 5000:5000 --rm --name test $DOCKER_IMAGE'
+	        sh 'docker run -d -p 5000:5000 --rm --name test $DOCKER_IMAGE'
 		sh 'pytest tests/test.py'
 		sh 'docker stop test'		
 	    }
@@ -116,6 +116,7 @@ pipeline{
 
 	stage('Deployment'){
 	    steps{
+//		sh 'scp /home/ubuntu/workspace/sample/build/nginx.conf ubuntu@172.31.87.152:/home/ubuntu/'
 		sh 'docker context use remote'
 		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 		sh 'docker pull $DOCKER_IMAGE'
